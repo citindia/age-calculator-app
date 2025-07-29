@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Basic | Age Calculator App",
-	description: "Basic Age Calculator App",
+	title: "Advanced | Age Calculator App",
+	description: "Advanced Age Calculator App",
 };
 
 const page = () => {
