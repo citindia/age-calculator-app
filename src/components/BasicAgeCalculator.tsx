@@ -33,10 +33,8 @@ const BasicAgeCalculator = () => {
 					<Button
 						variant="outline"
 						id="date"
-						className="w-full justify-between font-normal">
-						{inputdate
-							? format(inputdate, "PPPP")
-							: "Select a date"}
+						className="w-full cursor-pointer justify-between font-normal">
+						{inputdate ? format(inputdate, "PPPP") : "Pick a date"}
 						<ChevronDownIcon />
 					</Button>
 				</PopoverTrigger>
