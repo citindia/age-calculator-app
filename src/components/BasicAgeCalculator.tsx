@@ -16,12 +16,6 @@ const BasicAgeCalculator = () => {
 	const [inputdate, setInputDate] = useState<Date | undefined>(undefined);
 	const [open, setOpen] = useState(false);
 
-	if (inputdate) {
-		const isPast = isBefore(inputdate, startOfTomorrow());
-
-		console.log(isPast);
-	}
-
 	return (
 		<div className="grid w-xs gap-8">
 			<h1 className="text-center text-xl font-semibold">
