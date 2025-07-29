@@ -1,37 +1,66 @@
 "use client";
 
+import {
+	format,
+	formatDistanceToNow,
+	isBefore,
+	startOfTomorrow,
+} from "date-fns";
+import { ChevronDownIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./shadcnui/button";
 import { Calendar } from "./shadcnui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "./shadcnui/popover";
 
 const BasicAgeCalculator = () => {
-	const [date, setDate] = useState<Date | undefined>(undefined);
-	const [isCalculated, setIsCalculated] = useState(false);
+	const [inputdate, setInputDate] = useState<Date | undefined>(undefined);
+	const [open, setOpen] = useState(false);
 
-	const calculateAge = () => {
-		setIsCalculated(true);
-	};
+	if (inputdate) {
+		const isPast = isBefore(inputdate, startOfTomorrow());
+
+		console.log(isPast);
+	}
 
 	return (
-		<div className="grid gap-4">
-			<h1 className="text-center text-lg">
-				{isCalculated
-					? `You are ${"x"} years old`
-					: `Select your date of birth`}
+		<div className="grid w-xs gap-8">
+			<h1 className="text-center text-xl font-semibold">
+				{inputdate
+					? isBefore(inputdate, startOfTomorrow())
+						? `You are ${formatDistanceToNow(inputdate)} old`
+						: `You will be ${formatDistanceToNow(inputdate)} old`
+					: "Select your date of birth"}
 			</h1>
 
-			<Calendar
-				mode="single"
-				captionLayout="dropdown"
-				selected={date}
-				onSelect={(date) => setDate(date)}
-			/>
+			<Popover
+				open={open}
+				onOpenChange={setOpen}>
+				<PopoverTrigger asChild>
+					<Button
+						variant="outline"
+						id="date"
+						className="w-full justify-between font-normal">
+						{inputdate
+							? format(inputdate, "PPPP")
+							: "Select a date"}
+						<ChevronDownIcon />
+					</Button>
+				</PopoverTrigger>
 
-			<Button
-				type="button"
-				onClick={calculateAge}>
-				Calculate Age
-			</Button>
+				<PopoverContent
+					className="w-auto overflow-hidden p-0"
+					align="center">
+					<Calendar
+						mode="single"
+						captionLayout="dropdown"
+						selected={inputdate}
+						onSelect={(date) => {
+							setInputDate(date);
+							setOpen(false);
+						}}
+					/>
+				</PopoverContent>
+			</Popover>
 		</div>
 	);
 };
